@@ -9,7 +9,6 @@ const IconButton = ({ icon, size, color, onPress }) => {
       onPress={onPress}
     >
       <Ionicons name={icon} size={size} color={color} />
-      {/* <Text>Hey</Text> */}
     </Pressable>
   );
 };
