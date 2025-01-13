@@ -14,6 +14,7 @@ import {
   useCameraPermissions,
 } from "expo-image-picker";
 import { Colors } from "../../contants/color";
+import OutlineButton from "../UI/OutlineButton";
 
 const ImagePicker = () => {
   const [status, requestPermission] = useCameraPermissions();
@@ -64,7 +65,7 @@ const ImagePicker = () => {
   return (
     <View>
       <View style={styles.imagePreview}>{imagePreview}</View>
-      <Button title="Take Image" onPress={takeImageHandler} />
+      <OutlineButton icon={'camera'} onPress={takeImageHandler}>Take Image</OutlineButton>
     </View>
   );
 };
