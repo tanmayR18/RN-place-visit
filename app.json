@@ -30,6 +30,12 @@
         {
           "photosPermission": "Need photos permission to upload your images"
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
       ]
     ]
   }
