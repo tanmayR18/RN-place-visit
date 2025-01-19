@@ -21,6 +21,7 @@ const ImagePicker = () => {
   const [pickedImage, setPickedImage] = useState("");
 
   async function verifyPermission() {
+    console.log(status)
     if (status.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
       return permissionResponse.granted;
