@@ -1,21 +1,33 @@
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  Alert,
+  Button,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useState } from "react";
 import {
   launchCameraAsync,
   PermissionStatus,
   useCameraPermissions,
 } from "expo-image-picker";
+import { Colors } from "../../contants/color";
+import OutlineButton from "../UI/OutlineButton";
 
 const ImagePicker = () => {
   const [status, requestPermission] = useCameraPermissions();
+  const [pickedImage, setPickedImage] = useState("");
 
   async function verifyPermission() {
-    if (status === PermissionStatus.UNDETERMINED) {
+    console.log(status)
+    if (status.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
       return permissionResponse.granted;
     }
 
-    if (status === PermissionStatus.DENIED) {
+    if (status.status === PermissionStatus.DENIED) {
       Alert.alert(
         "Insufficient permission",
         "You need to provide camera permission"
@@ -33,23 +45,46 @@ const ImagePicker = () => {
     }
 
     const image = await launchCameraAsync({
-      allowsEditing: true,
+      allowsEditing: false,
       aspect: [16, 9],
       quality: 0.5,
     });
 
-    console.log(image);
+    setPickedImage(image.assets[0].uri);
+
+   console.log(image.assets[0].uri)
+  }
+
+  let imagePreview = <Text>NO image picked</Text>;
+
+  if (pickedImage) {
+    imagePreview = (
+      <Image style={styles.image} source={{ uri: pickedImage }} />
+    );
   }
 
   return (
     <View>
-      <Pressable onPress={() => takeImageHandler()}>
-        <Text>ImagePicker</Text>
-      </Pressable>
+      <View style={styles.imagePreview}>{imagePreview}</View>
+      <OutlineButton icon={'camera'} onPress={takeImageHandler}>Take Image</OutlineButton>
     </View>
   );
 };
 
 export default ImagePicker;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  imagePreview: {
+    width: "100%",
+    height: 200,
+    marginVertical: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.primary100,
+    borderRadius: 4,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+});
